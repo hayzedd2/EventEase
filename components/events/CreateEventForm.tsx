@@ -42,9 +42,8 @@ export const CreateEventForm = () => {
     defaultValues: {
       name: "",
       description: "",
-      startDate: Date.now(),
-      startTime: "08:00:00",
-      endTime: "",
+      startDate : new Date(),
+      startTime: "",
       location: "",
     },
   });
