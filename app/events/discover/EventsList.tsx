@@ -54,12 +54,6 @@ const EventsList = () => {
               />
             );
           })}
-
-          {/* {eventsData.map((e,i)=>{
-            return (
-                <p key={i}>Hello {e.Name}</p>
-            )
-          })} */}
         </div>
       )}
     </div>

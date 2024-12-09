@@ -1,11 +1,13 @@
 "use server";
+import { envConfig } from "@/config";
 import { EventResponse, Events } from "@/types/type";
 import axios from "axios";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+
 export const fetchEventById = async (id: number): Promise<EventResponse> => {
   try {
     const { data } = await axios.get<EventResponse>(
-      `${apiUrl}/events/${id}`,
+      `${envConfig.apiUrl}/events/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

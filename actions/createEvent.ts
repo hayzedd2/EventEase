@@ -3,15 +3,13 @@ import { EventSchema } from "@/schema";
 import axios from "axios";
 import * as z from "zod";
 import { getCookies } from "./GetCookie";
+import { envConfig } from "@/config";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const CreateEvent = async (values: z.infer<typeof EventSchema>) => {
   const validatedValues = EventSchema.safeParse(values);
   if (!validatedValues.success) {
-    console.log("Validation Errors:", validatedValues.error.errors);
-    throw new Error(
-      validatedValues.error.errors.map((err) => err.message).join(", ")
-    );
+    const errors = validatedValues.error.errors.map(err => err.message).join(", ");
+    throw new Error(`Error: ${errors}`);
   }
   const { name, description, startDate, startTime, location, category } =
     validatedValues.data;
@@ -21,7 +19,7 @@ export const CreateEvent = async (values: z.infer<typeof EventSchema>) => {
   }
   try {
     const response = await axios.post(
-      `${apiUrl}/events`,
+      `${envConfig.apiUrl!}/events`,
       { name, description, startDate, startTime, location, category },
       { headers: { Authorization: `Bearer ${token.value}` } }
     );

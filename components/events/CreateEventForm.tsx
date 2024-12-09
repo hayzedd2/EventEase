@@ -51,11 +51,9 @@ export const CreateEventForm = () => {
     useCreateEvent();
   const onSubmit = async (data: z.infer<typeof EventSchema>) => {
     try {
-      console.log(form.watch("startTime"));
       mutate(data);
-      console.log(form.getValues().startDate);
     } catch (err) {
-      console.error(err);
+
     }
   };
   return (
@@ -210,7 +208,7 @@ export const CreateEventForm = () => {
             />
           </div>
 
-          <Button type="submit" className="w-full mt-2">
+          <Button disabled={isPending} type="submit" className="w-full mt-2">
             {isPending && (
               <svg
                 className="h-4 w-4 text-white spinner-fast"

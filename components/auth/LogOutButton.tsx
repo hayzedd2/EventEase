@@ -18,11 +18,11 @@ const LogOutButton = ({ id }: { id: number }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const handleLogout =  () => {
-    logOut();
+  const handleLogout = async () => {
+    await logOut();
     queryClient.invalidateQueries({ queryKey: ["user"] });
     queryClient.removeQueries({ queryKey: ["user"] });
-    router.push("/login");
+    router.push("/events/discover");
   };
   return (
     <div>
@@ -35,11 +35,12 @@ const LogOutButton = ({ id }: { id: number }) => {
             }}
           ></div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-40">
+        <DropdownMenuContent className="w-40 cursor-pointer">
           <DropdownMenuItem onClick={handleLogout}>
-            <LogOutIcon />
-            <span className="mt-1">Log out</span>
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+            Log out
+            <DropdownMenuShortcut>
+              <LogOutIcon width={15} height={15} />
+            </DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

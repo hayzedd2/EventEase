@@ -1,9 +1,9 @@
 "use server";
+import { envConfig } from "@/config";
 import { LoginSchema, RegisterSchema } from "@/schema";
 import axios, { AxiosError } from "axios";
 import * as z from "zod";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const Login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedValues = LoginSchema.safeParse(values);
   if (!validatedValues.success) {
@@ -13,7 +13,7 @@ export const Login = async (values: z.infer<typeof LoginSchema>) => {
   email = email.toLowerCase()
   try {
     const response = await axios.post(
-      `${apiUrl}/users/login`,
+      `${envConfig.apiUrl}/users/login`,
       { email, password },
       { headers: { "Content-Type": "application/json" } }
     );

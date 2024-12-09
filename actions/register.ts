@@ -1,4 +1,5 @@
 "use server";
+import { envConfig } from "@/config";
 import { RegisterSchema } from "@/schema";
 import axios, { AxiosError } from "axios";
 import * as z from "zod";
@@ -6,7 +7,6 @@ import * as z from "zod";
 interface RegisterResponse {
   message: string;
 }
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const Register = async (
   values: z.infer<typeof RegisterSchema>
 ): Promise<RegisterResponse> => {
@@ -18,7 +18,7 @@ export const Register = async (
   email = email.toLowerCase()
   try {
     const response = await axios.post<RegisterResponse>(
-      `${apiUrl}/users/signup`,
+      `${envConfig.apiUrl}/users/signup`,
       { email, username, password },
       { headers: { "Content-Type": "application/json" } }
     );

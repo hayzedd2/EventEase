@@ -1,6 +1,7 @@
 "use server";
 
 import { getCookies } from "@/actions/GetCookie";
+import { envConfig } from "@/config";
 import { User, UserResponse } from "@/types/type";
 import axios from "axios";
 
@@ -11,7 +12,7 @@ export const getUserFromToken = async (): Promise<User> => {
   }
   try {
     const { data } = await axios.get<UserResponse>(
-      "http://localhost:8080/user/details",
+      `${envConfig.apiUrl}/user/details`,
       {
         headers: {
           "Content-Type": "application/json",
