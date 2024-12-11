@@ -65,19 +65,24 @@ export async function DELETE(
 }
 
 export async function GET(
+  req: NextRequest,
   { params }: { params: Promise<{ id: number }> }
 ) {
+  const paramsId = (await params).id
+  console.log("here is", paramsId);
+  if (!paramsId) {
+    return Response.json({ message: "Event ID is required" }, { status: 400 });
+  }
   try {
-    const { id } = await params;
     const { data } = await axios.get<EventResponse[]>(
-        `${envConfig.apiUrl}/events/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return Response.json(data);
+      `${envConfig.apiUrl}/events/${paramsId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return Response.json(data);
   } catch (error: any) {
     return Response.json(
       { message: error.response?.data?.message || "Something went wrong" },

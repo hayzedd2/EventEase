@@ -1,13 +1,12 @@
 "use client";
-
-import { useAuth } from "@/hooks/user/useAuth";
 import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
 import LogOutButton from "../auth/LogOutButton";
+import { useUser } from "@/hooks/useUser";
 
 const Navbar = () => {
-  const { user, isLoading } = useAuth();
+  const { data:user, isLoading } = useUser();
   return (
     <nav className="w-full items-center flex justify-between py-4">
       <div className="logo">
@@ -27,8 +26,9 @@ const Navbar = () => {
             {user ? (
               <div className="flex gap-3 items-center">
                 <Link href={"/events/create"}>
-                  <Button>Create event</Button>{" "}
+                  <Button>Create event</Button>
                 </Link>
+              
                 <LogOutButton id={user.id} />
               </div>
             ) : (

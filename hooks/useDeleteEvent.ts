@@ -18,9 +18,8 @@ export const useDeleteEvent = (id: number) => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["myevents"],
+        queryKey: ["events"],
       });
-      window.location.reload();
     },
     onError: (error) => {
       console.log(error);
