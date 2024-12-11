@@ -17,8 +17,9 @@ export async function GET() {
     );
     return Response.json(data);
   } catch (error: any) {
+    console.error(error)
     return Response.json(
-      { message: error.response?.data?.message ||error },
+      { message: error.response?.data?.message ||error.response },
       { status: error.response?.status || 500 }
     );
   }
