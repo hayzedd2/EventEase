@@ -1,6 +1,6 @@
 import { getCookies } from "@/actions/GetCookie";
 import { envConfig } from "@/config";
-import { EventApiSchema, EventSchema } from "@/schema";
+import { EventApiSchema } from "@/schema";
 import { EventResponse } from "@/types/type";
 import axios from "axios";
 import { NextRequest } from "next/server";
@@ -18,7 +18,7 @@ export async function GET() {
     return Response.json(data);
   } catch (error: any) {
     return Response.json(
-      { message: error.response?.data?.message || "Something went wrong" },
+      { message: error.response?.data?.message ||error },
       { status: error.response?.status || 500 }
     );
   }
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     return Response.json(response.data);
   } catch (error: any) {
     return Response.json(
-      { message: error.response?.data?.message || "Something went wrong" },
+      { message: error.response?.data?.message || error },
       { status: error.response?.status || 500 }
     );
   }
