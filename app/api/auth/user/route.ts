@@ -1,14 +1,12 @@
-"use server";
-
 import { getCookies } from "@/actions/GetCookie";
 import { envConfig } from "@/config";
-import { User, UserResponse } from "@/types/type";
+import { UserResponse } from "@/types/type";
 import axios from "axios";
 
-export const getUserFromToken = async (): Promise<User> => {
+export const GET = async () => {
   const token = await getCookies();
   if (!token) {
-    throw new Error("No token found");
+    return Response.json({ message: "Unauthorized!" }, { status: 401 });
   }
   try {
     const { data } = await axios.get<UserResponse>(
@@ -20,12 +18,11 @@ export const getUserFromToken = async (): Promise<User> => {
         },
       }
     );
-    return data.user;
+    return Response.json(data);
   } catch (error: any) {
-    if (error.response) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error("Something went wrong");
-    }
+    return Response.json(
+      { message: error.response?.data?.message || "Something went wrong" },
+      { status: error.response?.status || 500 }
+    );
   }
 };

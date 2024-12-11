@@ -1,19 +1,26 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { UpdateEvent } from "@/actions/updateEvent";
 import { z } from "zod";
 import { EventSchema } from "@/schema";
 
-interface updateProps {
-  values: z.infer<typeof EventSchema>;
-  id: number;
-}
 export const useUpdateEvent = (id: number) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ values, id }: updateProps) => UpdateEvent(values, id),
-
+    mutationFn: async (values: z.infer<typeof EventSchema>) => {
+      const response = await fetch(`/api/events/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      return response.json();
+    },
     onSuccess: async (updatedEvent) => {
       console.log(updatedEvent);
       await Promise.all([

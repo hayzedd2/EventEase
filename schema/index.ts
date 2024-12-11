@@ -31,3 +31,12 @@ export const EventSchema = z.object({
   startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format'),
   location: z.string().min(1, "Location is required"),
 });
+
+
+export const EventApiSchema = EventSchema.extend({
+  startDate: z.string()
+    .refine((date) => !isNaN(new Date(date).getTime()), {
+      message: "Invalid date format"
+    })
+    .transform((str) => new Date(str))
+});

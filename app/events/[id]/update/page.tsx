@@ -19,7 +19,6 @@ export default function EditEventPage({
     data: eventData,
     error: eventError,
     isLoading: eventLoading,
-    refetch,
   } = useSingleEvent(id);
   if (authLoading) {
     return <Loader />;

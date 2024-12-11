@@ -57,7 +57,8 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
   );
   const onSubmit = async (data: z.infer<typeof EventSchema>) => {
     try {
-      mutate({ values: data, id: eventData.ID });
+      console.log(data)
+      mutate(data);
     } catch (err) {
       console.error(err);
     }

@@ -51,9 +51,10 @@ export const CreateEventForm = () => {
     useCreateEvent();
   const onSubmit = async (data: z.infer<typeof EventSchema>) => {
     try {
+      console.log(typeof data.startDate)
       mutate(data);
     } catch (err) {
-
+      console.error(err)
     }
   };
   return (
@@ -196,7 +197,7 @@ export const CreateEventForm = () => {
                     <div className="relative">
                       <input
                         {...field}
-                        // onChange={()=> console.log(field.value)}
+        
                         type="time"
                         className="h-9 w-full bg-white px-3 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 rounded-md border text-[16px] shadow-sm text-opacity-100"
                       />
