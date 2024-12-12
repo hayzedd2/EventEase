@@ -23,8 +23,5 @@ export const useRegister = () => {
     onSuccess: () => {
       router.push("/login");
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };

@@ -22,7 +22,6 @@ export const useUpdateEvent = (id: number) => {
       return response.json();
     },
     onSuccess: async (updatedEvent) => {
-      console.log(updatedEvent);
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: ["event", id],
@@ -32,9 +31,6 @@ export const useUpdateEvent = (id: number) => {
         }),
       ]);
       router.push("/events/myevents");
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 };

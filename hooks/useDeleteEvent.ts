@@ -21,8 +21,5 @@ export const useDeleteEvent = (id: number) => {
         queryKey: ["events"],
       });
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };

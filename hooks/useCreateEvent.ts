@@ -29,8 +29,5 @@ export const useCreateEvent = () => {
       });
       router.push("/events/myevents");
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };

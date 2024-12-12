@@ -2,11 +2,13 @@
 
 import Empty from "@/components/events/Empty";
 import SkeletonEventCardDisplay from "@/components/events/EventCardSkeleton";
+import EventError from "@/components/events/EventError";
 import Loader from "@/components/events/Loader";
 import MyEventCard from "@/components/events/MyEventCard";
 import Header from "@/components/ui/Header";
 import { useEvents } from "@/hooks/useEvents";
 import { useAuth } from "@/hooks/user/useAuth";
+import { useUser } from "@/hooks/useUser";
 import { EventResponse } from "@/types/type";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,9 +18,8 @@ const MyEventsList = () => {
     data: eventsData,
     isLoading: loading,
     error: eventErr,
-    isError,
   } = useEvents();
-  const { user, isLoading, error } = useAuth();
+  const { data:user, isLoading, error } = useUser();
   const [filteredEvents, setFilteredEvents] = useState<EventResponse[]>([]);
   useEffect(() => {
     if (!eventsData) return;
@@ -26,9 +27,13 @@ const MyEventsList = () => {
       ? eventsData.filter((event) => event.UserId == user.userId)
       : eventsData;
     setFilteredEvents(filtered);
-
   }, [eventsData, user]);
-  if (isLoading) return <div><Loader/></div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   if (error) {
     redirect("/login");
   }
@@ -39,8 +44,8 @@ const MyEventsList = () => {
   if (loading) {
     return <SkeletonEventCardDisplay />;
   }
-  if (isError) {
-    return <div>Error: {eventErr.message}</div>;
+  if (eventErr) {
+    return <EventError text={eventErr.message} />;
   }
   if (!filteredEvents || filteredEvents.length === 0) {
     return (

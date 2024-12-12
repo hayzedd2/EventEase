@@ -22,16 +22,12 @@ export const useLogin = () => {
         const error = await response.json();
         throw new Error(error.message);
       }
-
       return response.json();
     },
     onSuccess: async (data) => {
       setCookies(data.token);
       await refetch();
       router.push("/events/discover");
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 };

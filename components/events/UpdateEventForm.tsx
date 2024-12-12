@@ -79,7 +79,7 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,6 +95,7 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
                   <Textarea
                     className="h-[10rem] text-base resize-none"
                     {...field}
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -112,6 +113,7 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
                   <div className="relative">
                     <Input
                       {...field}
+                      disabled={isPending}
                       type={"text"}
                       className="pr-10" // Add padding for the icon
                     />
@@ -130,6 +132,7 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={isPending}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -160,6 +163,7 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
+                        disabled={isPending}
                           variant={"outline"}
                           className={cn(
                             "w-full text-left font-normal",
@@ -203,6 +207,7 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
                     <div className="relative">
                       <input
                         {...field}
+                        disabled={isPending}
                         // onChange={()=> console.log(field.value)}
                         type="time"
                         className="h-9 w-full bg-white px-3 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 rounded-md border text-[16px] shadow-sm text-opacity-100"

@@ -61,7 +61,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,6 +77,7 @@ const LoginForm = () => {
                     <div className="relative">
                       <Input
                         {...field}
+                        disabled={isPending}
                         type={showPassword ? "text" : "password"}
                         className="pr-10" // Add padding for the icon
                       />
@@ -103,11 +104,7 @@ const LoginForm = () => {
               )}
             />
 
-            <Button
-              type="submit"
-              disabled={isPending}
-              className="w-full"
-            >
+            <Button type="submit" disabled={isPending} className="w-full">
               {isPending && (
                 <svg
                   className="h-4 w-4 text-white spinner-fast"
@@ -130,7 +127,7 @@ const LoginForm = () => {
                   ></path>
                 </svg>
               )}
-             <p className="mt-[0.2rem]"> Login</p>
+              <p className="mt-[0.2rem]"> Login</p>
             </Button>
             {isError && <FormError message={error.message} />}
             {isSuccess && <FormSuccess message={data.message} />}

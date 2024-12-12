@@ -4,11 +4,9 @@ import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
-
   useEffect(() => {
     router.push("/events/discover");
   }, []); 
-
   return null;
 };
 

@@ -43,7 +43,7 @@ const SignUpForm = () => {
     <CardWrapper
       headerLabel="Create an account"
       backButtonLabel="Already have an account?"
-       headerDescription = "Enter your details to create an account"
+      headerDescription="Enter your details to create an account"
       backButtonHref="/login"
       semiButtonLabel="Login"
       showSocials
@@ -54,7 +54,6 @@ const SignUpForm = () => {
             className="flex flex-col gap-3"
             onSubmit={form.handleSubmit(onSubmit)}
             autoComplete="off"
-  
           >
             <FormField
               control={form.control}
@@ -63,7 +62,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -78,6 +77,7 @@ const SignUpForm = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       type="text"
                       className="text-[16px] md:text-[14px]"
                     />
@@ -97,6 +97,7 @@ const SignUpForm = () => {
                     <div className="relative">
                       <Input
                         {...field}
+                        disabled={isPending}
                         type={showPassword ? "text" : "password"}
                         className="pr-10" // Add padding for the icon
                       />
@@ -123,11 +124,7 @@ const SignUpForm = () => {
               )}
             />
 
-            <Button
-              type="submit"
-              disabled={isPending}
-              className="w-full"
-            >
+            <Button type="submit" disabled={isPending} className="w-full">
               {isPending && (
                 <svg
                   className="h-4 w-4 text-white spinner-fast"
@@ -150,7 +147,7 @@ const SignUpForm = () => {
                   ></path>
                 </svg>
               )}
-             <p className="mt-[0.2rem]"> Sign Up</p>
+              <p className="mt-[0.2rem]"> Sign Up</p>
             </Button>
             {isError && <FormError message={error.message} />}
             {isSuccess && <FormSuccess message={data.message} />}
