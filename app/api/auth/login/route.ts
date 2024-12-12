@@ -12,7 +12,9 @@ export async function POST(req: NextRequest) {
       .join(", ");
     return Response.json({ message: errors }, { status: 500 });
   }
-  const { email, password } = validatedValues.data;
+  let { email, password } = validatedValues.data;
+  email = email.toLowerCase()
+  password = password.toLowerCase()
   try {
     const response = await axios.post(
       `${envConfig.apiUrl}/users/login`,

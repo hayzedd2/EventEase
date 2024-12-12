@@ -29,7 +29,6 @@ export interface EventResponse {
   StartDate: string;
   StartTime : string
   Category : string
-  
   UserId: string;
 }
 

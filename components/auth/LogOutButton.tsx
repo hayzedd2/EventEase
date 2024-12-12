@@ -20,6 +20,7 @@ const LogOutButton = ({ id }: { id: number }) => {
   const handleLogout = async () => {
     await logOut();
     queryClient.invalidateQueries({ queryKey: ["user"] });
+    queryClient.removeQueries({ queryKey: ["user"] });
     router.push("/events/discover");
   };
   return (

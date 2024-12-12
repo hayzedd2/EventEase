@@ -26,7 +26,6 @@ export const useLogin = () => {
     },
     onSuccess: async (data) => {
       setCookies(data.token);
-      await refetch();
       router.push("/events/discover");
     },
   });

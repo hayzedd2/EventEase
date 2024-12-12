@@ -3,6 +3,7 @@ import { envConfig } from "@/config";
 import { UserResponse } from "@/types/type";
 import axios from "axios";
 
+
 export const GET = async () => {
   const token = await getCookies();
   if (!token) {
