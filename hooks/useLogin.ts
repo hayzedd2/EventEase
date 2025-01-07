@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { setCookies } from "@/actions/setCookie";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./user/useAuth";
 import { LoginSchema } from "@/schema";
@@ -7,7 +6,6 @@ import { z } from "zod";
 
 export const useLogin = () => {
   const router = useRouter();
-  const { refetch } = useAuth();
   return useMutation({
     mutationFn: async (values: z.infer<typeof LoginSchema>) => {
       const response = await fetch("/api/auth/login", {
@@ -24,8 +22,7 @@ export const useLogin = () => {
       }
       return response.json();
     },
-    onSuccess: async (data) => {
-      setCookies(data.token);
+    onSuccess: async () => {
       router.push("/events/discover");
     },
   });

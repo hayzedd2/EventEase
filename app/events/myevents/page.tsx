@@ -24,7 +24,7 @@ const MyEventsList = () => {
   useEffect(() => {
     if (!eventsData) return;
     const filtered = user
-      ? eventsData.filter((event) => event.UserId == user.userId)
+      ? eventsData.filter((event) => event.userId == user.userId)
       : eventsData;
     setFilteredEvents(filtered);
   }, [eventsData, user]);
@@ -62,18 +62,18 @@ const MyEventsList = () => {
       {filteredEvents && (
         <div className="grid gap-3 pb-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {filteredEvents
-            .filter((event) => event.UserId == user.userId)
+            .filter((event) => event.userId == user.userId)
             .map((event, i) => {
               return (
                 <MyEventCard
                   key={i}
-                  id={event.ID}
-                  name={event.Name}
-                  description={event.Description}
-                  startDate={event.StartDate}
-                  category={event.Category}
-                  startTime={event.StartTime}
-                  location={event.Location}
+                  id={event.id}
+                  name={event.name}
+                  description={event.description}
+                  startDate={event.startDate}
+                  category={event.category}
+                  startTime={event.startTime}
+                  location={event.location}
                 />
               );
             })}

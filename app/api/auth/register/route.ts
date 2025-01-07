@@ -1,7 +1,7 @@
 import { RegisterSchema } from "@/schema";
 import bcrypt from "bcryptjs";
 import { NextRequest } from "next/server";
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail, getUserByUserName } from "@/data/user";
 import { db } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
@@ -14,13 +14,30 @@ export async function POST(req: NextRequest) {
     return Response.json({ message: errors }, { status: 400 });
   }
   const { email, username, password } = validatedValues.data;
+  if (password.length < 8){
+    return Response.json(
+      {
+        message: "Password must contain at least 8 characters",
+      },
+      { status: 400 }
+    );
+  }
   const hashedPassword = await bcrypt.hash(password, 10);
   const userid = crypto.randomUUID();
   const existingEmail = await getUserByEmail(email);
+  const existingUserName = await getUserByUserName(username)
   if (existingEmail) {
     return Response.json(
       {
         message: "Email already in use!",
+      },
+      { status: 409 }
+    );
+  }
+  if (existingUserName) {
+    return Response.json(
+      {
+        message: "Username already in use!",
       },
       { status: 409 }
     );
