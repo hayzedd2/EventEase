@@ -1,16 +1,31 @@
-import { getCookies } from "@/actions/getCookie";
-import { envConfig } from "@/config";
-import { useAuth } from "@/hooks/user/useAuth";
-import { useUser } from "@/hooks/useUser";
+import { getCookie } from "@/actions/getCookie";
 import { db } from "@/lib/db";
 import { EventApiSchema } from "@/schema";
-import { EventResponse } from "@/types/type";
-import axios from "axios";
+import { verifyToken } from "@/utils/token";
 import { NextRequest } from "next/server";
 
 export async function GET() {
   try {
-    const events = await db.event.findMany();
+    const token = await getCookie();
+    let events;
+
+    if (token?.value) {
+      try {
+        const user = verifyToken(token.value);
+        events = await db.event.findMany({
+          where: {
+            NOT: { userId: user?.userId },
+          },
+        });
+      } catch {
+        // Token invalid/expired - show all events
+        events = await db.event.findMany();
+      }
+    } else {
+      // No token - show all events
+      events = await db.event.findMany();
+    }
+
     return Response.json(events, { status: 200 });
   } catch (error: any) {
     console.error(error);
@@ -23,8 +38,12 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { data } = useUser();
-    if (!data) {
+    const token = await getCookie();
+    if (!token) {
+      return Response.json({ message: "Unauthorized!" }, { status: 401 });
+    }
+    const verifiedUser = verifyToken(token.value);
+    if (!verifiedUser) {
       return Response.json({ message: "Unauthorized!" }, { status: 401 });
     }
     const reqBody = await req.json();
@@ -38,10 +57,10 @@ export async function POST(req: NextRequest) {
     const eventCreated = await db.event.create({
       data: {
         ...validatedData.data,
-        userId: data.userId,
+        userId: verifiedUser.userId,
       },
     });
-    console.log(eventCreated)
+    console.log(eventCreated);
     return Response.json(
       { message: "Event created succesfully" },
       { status: 200 }

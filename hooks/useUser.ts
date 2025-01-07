@@ -15,7 +15,6 @@ export const useUser = () => {
       
       return data.user;
     },
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
     retry: false
   });

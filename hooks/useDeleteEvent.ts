@@ -6,9 +6,6 @@ export const useDeleteEvent = (id: number) => {
     mutationFn: async () => {
       const response = await fetch(`/api/events/${id}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
       if (!response.ok) {
         const error = await response.json();

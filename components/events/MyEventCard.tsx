@@ -10,7 +10,6 @@ import { Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DeleteEventButton } from "@/app/events/myevents/DeleteEvent";
 import { useRouter } from "next/navigation";
-import { QueryClient } from "@tanstack/react-query";
 
 const MAX_DESCRIPTION_LENGTH = 200;
 const MyEventCard = ({

@@ -44,16 +44,16 @@ export const UpdateEventForm = ({ eventData }: UpdateEventFormProps) => {
   const form = useForm<z.infer<typeof EventSchema>>({
     resolver: zodResolver(EventSchema),
     defaultValues: {
-      name: eventData.Name,
-      description: eventData.Description,
-      startDate: new Date(eventData.StartDate),
-      startTime: eventData.StartTime,
-      category: eventData.Category,
-      location: eventData.Location,
+      name: eventData.name,
+      description: eventData.description,
+      startDate: new Date(eventData.startDate),
+      startTime: eventData.startTime,
+      category: eventData.category,
+      location: eventData.location,
     },
   });
   const { mutate, isPending, data, isError, error, isSuccess } = useUpdateEvent(
-    eventData.ID
+    eventData.id
   );
   const onSubmit = async (data: z.infer<typeof EventSchema>) => {
     try {
