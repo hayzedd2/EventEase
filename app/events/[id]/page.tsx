@@ -24,12 +24,12 @@ const page = ({ params }: { params: Promise<{ id: number }> }) => {
         <>
           <SingleEventCard
             id={id}
-            name={eventData.Name}
-            description={eventData.Description}
-            startDate={eventData.StartDate}
-            startTime={eventData.StartTime}
-            category={eventData.Category}
-            location={eventData.Location}
+            name={eventData.name}
+            description={eventData.description}
+            startDate={eventData.startDate}
+            startTime={eventData.startTime}
+            category={eventData.category}
+            location={eventData.location}
           />
           {/* <Button onClick={() => addToGoogleCalendar(eventData)}>
             Add to google calendar

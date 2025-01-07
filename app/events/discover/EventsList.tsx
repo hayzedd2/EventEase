@@ -15,9 +15,10 @@ const EventsList = () => {
   const { user } = useAuth();
   useEffect(() => {
     if (!eventsData) return;
+    console.log(eventsData)
     const filtered = user
-      ? eventsData.filter(event => event.UserId !== user.userId)
-      : eventsData;   
+      ? eventsData.filter((event) => event.userId !== user.userId)
+      : eventsData;
     setFilteredEvents(filtered);
   }, [eventsData, user]);
   if (isLoading) {
@@ -37,20 +38,20 @@ const EventsList = () => {
   }
   return (
     <div className="mt-4">
-       <Header text="Upcoming Events"/>
+      <Header text="Upcoming Events" />
       {eventsData && (
         <div className="grid gap-3 pb-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.map((event, i) => {
             return (
               <EventCard
                 key={i}
-                id={event.ID}
-                name={event.Name}
-                description={event.Description}
-                startDate={event.StartDate}
-                startTime={event.StartTime}
-                category={event.Category}
-                location={event.Location}
+                id={event.id}
+                name={event.name}
+                description={event.description}
+                startDate={event.startDate}
+                startTime={event.startTime}
+                category={event.category}
+                location={event.location}
               />
             );
           })}

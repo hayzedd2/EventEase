@@ -1,5 +1,8 @@
 import { getCookies } from "@/actions/GetCookie";
 import { envConfig } from "@/config";
+import { useAuth } from "@/hooks/user/useAuth";
+import { useUser } from "@/hooks/useUser";
+import { db } from "@/lib/db";
 import { EventApiSchema } from "@/schema";
 import { EventResponse } from "@/types/type";
 import axios from "axios";
@@ -7,19 +10,12 @@ import { NextRequest } from "next/server";
 
 export async function GET() {
   try {
-    const { data } = await axios.get<EventResponse[]>(
-      `${envConfig.apiUrl}/events`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return Response.json(data);
+    const events = await db.event.findMany();
+    return Response.json(events, { status: 200 });
   } catch (error: any) {
-    console.error(error)
+    console.error(error);
     return Response.json(
-      { message: error.response?.data?.message ||error.response },
+      { message: error.response?.data?.message || error.response },
       { status: error.response?.status || 500 }
     );
   }
@@ -27,12 +23,11 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const token = await getCookies();
-    if (!token) {
+    const { data } = useUser();
+    if (!data) {
       return Response.json({ message: "Unauthorized!" }, { status: 401 });
     }
     const reqBody = await req.json();
-
     const validatedData = EventApiSchema.safeParse(reqBody);
     if (!validatedData.success) {
       const errors = validatedData.error.errors
@@ -40,22 +35,21 @@ export async function POST(req: NextRequest) {
         .join(", ");
       return Response.json({ message: errors }, { status: 500 });
     }
-    const response = await axios.post(
-      `${envConfig.apiUrl}/events`,
-      validatedData.data,
-      {
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
+    const eventCreated = await db.event.create({
+      data: {
+        ...validatedData.data,
+        userId: data.userId,
+      },
+    });
+    console.log(eventCreated)
+    return Response.json(
+      { message: "Event created succesfully" },
+      { status: 200 }
     );
-    return Response.json(response.data);
   } catch (error: any) {
     return Response.json(
-      { message: error.response?.data?.message || "Something went wrong" },
-      { status: error.response?.status || 500 }
+      { message: error.message || "Something went wrong" },
+      { status: 500 }
     );
   }
 }
-
-

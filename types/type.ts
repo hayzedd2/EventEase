@@ -21,15 +21,8 @@ export interface eventProps {
   category : string
 }
 
-export interface EventResponse {
-  ID: number;
-  Name: string;
-  Description: string;
-  Location: string;
-  StartDate: string;
-  StartTime : string
-  Category : string
-  UserId: string;
+export interface EventResponse extends eventProps {
+  userId: string
 }
 
 export type Events = EventResponse[];

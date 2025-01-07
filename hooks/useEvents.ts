@@ -10,7 +10,10 @@ export const useEvents = () => {
         const error = await res.json()
         throw new Error(error.message)
       }
-      return res.json()
+      const data = await res.json()
+      return data
     },
+
   });
+  
 };
