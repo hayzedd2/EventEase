@@ -15,9 +15,11 @@ import { Button } from "@/components/ui/button";
 import { SvgLoading } from "@/components/ui/SvgLoading";
 import { useDeleteEvent } from "@/hooks/useDeleteEvent";
 import { Trash2 } from "lucide-react";
+import React from "react";
 
 export function DeleteEventButton({ id }: { id: number }) {
   const { mutate: deleteEvent, isPending } = useDeleteEvent(id);
+
   const handleDelete = () => {
     try {
       deleteEvent();
@@ -47,11 +49,18 @@ export function DeleteEventButton({ id }: { id: number }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction disabled={isPending} onClick={() => handleDelete()}>
-            {isPending && (
-              <SvgLoading/>
+          <AlertDialogAction
+            disabled={isPending}
+            onClick={() => handleDelete()}
+          >
+            {isPending ? (
+              <div className="flex gap-1 w-full items-center justify-center">
+                <SvgLoading />
+                <p>Deleting</p>
+              </div>
+            ) : (
+              <p>Continue</p>
             )}
-            Continue
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

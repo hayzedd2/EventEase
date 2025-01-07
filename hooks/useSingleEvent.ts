@@ -12,5 +12,6 @@ export const useSingleEvent = (id: number) => {
       }
       return res.json();
     },
+    retry : false
   });
 };

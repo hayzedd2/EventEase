@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const secretKey = process.env.JWT_SECRET_KEY || "viola";
+const secretKey = process.env.JWT_SECRET_KEY!;
 
 export const generateToken = (
   email: string,

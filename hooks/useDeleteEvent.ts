@@ -15,7 +15,7 @@ export const useDeleteEvent = (id: number) => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["events"],
+        queryKey: ["myevents"],
       });
     },
   });

@@ -1,7 +1,5 @@
 import { getCookie } from "@/actions/getCookie";
-import { envConfig } from "@/config";
 import { db } from "@/lib/db";
-import { UserResponse } from "@/types/type";
 import { verifyToken } from "@/utils/token";
 
 export const GET = async () => {

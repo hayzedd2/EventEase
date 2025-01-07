@@ -12,7 +12,7 @@ export async function DELETE(
 ) {
   try {
     const token = await getCookie();
-    const { id } = await params;
+    const id = Number((await params).id);
     if (!token) {
       return Response.json({ message: "Unauthorized!" }, { status: 401 });
     }
@@ -22,10 +22,13 @@ export async function DELETE(
     }
 
     // Verify event ownership
-    const event = await db.event.findUnique({
-      where: { id },
+    const event = await db.event.findFirst({
+      where: {
+        id,
+      },
     });
-
+    console.log("reached");
+    console.log("event", event);
     if (!event || event.userId !== user.userId) {
       return Response.json({ message: "Not allowed" }, { status: 403 });
     }
@@ -46,7 +49,7 @@ export async function PUT(
 ) {
   try {
     const token = await getCookie();
-    const { id } = await params;
+    const id = Number((await params).id);
     if (!token) {
       return Response.json({ message: "Unauthorized!" }, { status: 401 });
     }
@@ -77,22 +80,21 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: number }> }
 ) {
-  const paramsId = (await params).id;
-  console.log("here is", paramsId);
-  if (!paramsId) {
-    return Response.json({ message: "Event ID is required" }, { status: 400 });
-  }
   try {
-    const { data } = await axios.get<EventResponse[]>(
-      `${envConfig.apiUrl}/events/${paramsId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const id = Number((await params).id);
+    if (!id) {
+      return Response.json(
+        { message: "Event ID is required" },
+        { status: 400 }
+      );
+    }
+    const data = await db.event.findFirst({
+      where: {
+        id,
+      },
+    });
     return Response.json(data);
   } catch (error: any) {
-    return Response.json({ message: "Something went wrong" }, { status: 500 });
+    return Response.json({ message: "Something went wrong"  }, { status: 500 });
   }
 }
