@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
       existingUser.userid
     );
     await setCookie(token)
-    console.log(token);
     return Response.json(
       { message: "Login successful"},
       { status: 200 }

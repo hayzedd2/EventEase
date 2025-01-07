@@ -1,6 +1,5 @@
 "use client";
-
-import { useAuth } from "@/hooks/user/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import React from "react";
 
@@ -12,7 +11,7 @@ const NavCrumb = () => {
 
       {user ? (
         <div className="flex gap-2">
-          <p>/</p>
+          <p>|</p>
           <Link href={"/events/myevents"}>My events</Link>
         </div>
       ) : null}

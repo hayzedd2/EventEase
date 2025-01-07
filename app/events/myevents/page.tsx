@@ -7,40 +7,24 @@ import Loader from "@/components/events/Loader";
 import MyEventCard from "@/components/events/MyEventCard";
 import Header from "@/components/ui/Header";
 import { useEvents } from "@/hooks/useEvents";
-import { useAuth } from "@/hooks/user/useAuth";
-import { useUser } from "@/hooks/useUser";
-import { EventResponse } from "@/types/type";
+import { useAuth } from "@/hooks/useAuth";
 import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import React from "react";
 
 const MyEventsList = () => {
-  const {
-    data: eventsData,
-    isLoading: loading,
-    error: eventErr,
-  } = useEvents();
-  const { data:user, isLoading, error } = useUser();
-  const [filteredEvents, setFilteredEvents] = useState<EventResponse[]>([]);
-  useEffect(() => {
-    if (!eventsData) return;
-    const filtered = user
-      ? eventsData.filter((event) => event.userId == user.userId)
+  const { data: eventsData, isLoading: loading, error: eventErr } = useEvents();
+  const { user, isLoading, error } = useAuth();
+  const filteredEvents = React.useMemo(() => {
+    return user
+      ? eventsData?.filter((event) => event.userId === user.userId)
       : eventsData;
-    setFilteredEvents(filtered);
   }, [eventsData, user]);
-  if (isLoading)
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
-  if (error) {
+  if (error || !user) {
     redirect("/login");
   }
-  if (!user) {
-    redirect("/login");
+  if(isLoading){
+    return <Loader/>
   }
-
   if (loading) {
     return <SkeletonEventCardDisplay />;
   }

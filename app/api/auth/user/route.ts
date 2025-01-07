@@ -1,29 +1,32 @@
-import { getCookies } from "@/actions/GetCookie";
+import { getCookie } from "@/actions/getCookie";
 import { envConfig } from "@/config";
+import { db } from "@/lib/db";
 import { UserResponse } from "@/types/type";
-import axios from "axios";
-
+import { verifyToken } from "@/utils/token";
 
 export const GET = async () => {
-  const token = await getCookies();
-  if (!token) {
-    return Response.json({ message: "Unauthorized!" }, { status: 401 });
-  }
   try {
-    const { data } = await axios.get<UserResponse>(
-      `${envConfig.apiUrl}/user/details`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    );
-    return Response.json(data);
+    const token = await getCookie();
+    if (!token) {
+      return Response.json({ message: "Unauthorized!" }, { status: 401 });
+    }
+    const verifiedUser = verifyToken(token.value);
+    if (!verifiedUser) {
+      return Response.json({ message: "Unauthorized!" }, { status: 401 });
+    }
+    const user = await db.user.findUnique({
+      where: {
+        userid: verifiedUser.userId,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        userid: true,
+      },
+    });
+    return Response.json({ user }, { status: 200 });
   } catch (error: any) {
-    return Response.json(
-      { message: error.response?.data?.message || "Something went wrong" },
-      { status: error.response?.status || 500 }
-    );
+    return Response.json({ message: "Something went wrong" }, { status: 500 });
   }
 };

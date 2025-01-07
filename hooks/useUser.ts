@@ -11,10 +11,12 @@ export const useUser = () => {
         const error = await res.json();
         throw new Error(error.message);
       }
-      const data =  await res.json();
+      const data = await res.json();
+      
       return data.user;
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
+    retry: false
   });
 };

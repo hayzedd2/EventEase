@@ -1,4 +1,4 @@
-import { getCookies } from "@/actions/GetCookie";
+import { getCookies } from "@/actions/getCookie";
 import { envConfig } from "@/config";
 import { useAuth } from "@/hooks/user/useAuth";
 import { useUser } from "@/hooks/useUser";

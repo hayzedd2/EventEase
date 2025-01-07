@@ -53,6 +53,6 @@ export async function POST(req: NextRequest) {
     });
     return Response.json({ message: "User created!" }, { status: 200 });
   } catch (error) {
-    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+    return Response.json({ message: "Something went wrong" }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/user/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useSingleEvent } from "@/hooks/useSingleEvent";
 import { redirect } from "next/navigation";
 import React from "react";

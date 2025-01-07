@@ -4,8 +4,8 @@ import Empty from "@/components/events/Empty";
 import EventCard from "@/components/events/EventCard";
 import SkeletonEventCardDisplay from "@/components/events/EventCardSkeleton";
 import Header from "@/components/ui/Header";
+import { useAuth } from "@/hooks/useAuth";
 import { useEvents } from "@/hooks/useEvents";
-import { useAuth } from "@/hooks/user/useAuth";
 import { EventResponse } from "@/types/type";
 import { useEffect, useState } from "react";
 
@@ -15,7 +15,7 @@ const EventsList = () => {
   const { user } = useAuth();
   useEffect(() => {
     if (!eventsData) return;
-    console.log(eventsData)
+
     const filtered = user
       ? eventsData.filter((event) => event.userId !== user.userId)
       : eventsData;

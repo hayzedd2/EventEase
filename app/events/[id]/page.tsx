@@ -31,9 +31,7 @@ const page = ({ params }: { params: Promise<{ id: number }> }) => {
             category={eventData.category}
             location={eventData.location}
           />
-          {/* <Button onClick={() => addToGoogleCalendar(eventData)}>
-            Add to google calendar
-          </Button> */}
+         
         </>
       )}
     </div>

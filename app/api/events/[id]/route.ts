@@ -1,4 +1,4 @@
-import { getCookies } from "@/actions/GetCookie";
+import { getCookie } from "@/actions/getCookie";
 import { envConfig } from "@/config";
 import { EventApiSchema } from "@/schema";
 import { EventResponse } from "@/types/type";
@@ -9,7 +9,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: number }> }
 ) {
   try {
-    const token = await getCookies();
+    const token = await getCookie();
     const { id } = await params;
     if (!token) {
       return Response.json({ message: "Unauthorized!" }, { status: 401 });
@@ -45,7 +45,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: number }> }
 ) {
   try {
-    const token = await getCookies();
+    const token = await getCookie();
     const { id } = await params;
     if (!token) {
       return Response.json({ message: "Unauthorized!" }, { status: 401 });
