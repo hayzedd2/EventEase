@@ -1,4 +1,4 @@
-import { getCookie } from "@/actions/getCookie";
+import { getCookie } from "@/lib/actions/getCookie";
 import { db } from "@/lib/db";
 import { verifyToken } from "@/utils/token";
 

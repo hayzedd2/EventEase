@@ -1,10 +1,7 @@
-import { getCookie } from "@/actions/getCookie";
-import { envConfig } from "@/config";
+import { getCookie } from "@/lib/actions/getCookie";
 import { db } from "@/lib/db";
 import { EventApiSchema } from "@/schema";
-import { EventResponse } from "@/types/type";
 import { verifyToken } from "@/utils/token";
-import axios from "axios";
 import { NextRequest } from "next/server";
 export async function DELETE(
   req: NextRequest,

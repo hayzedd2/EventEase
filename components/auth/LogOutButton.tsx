@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOutIcon } from "lucide-react";
-import { logOut } from "@/actions/logOut";
+import { logOut } from "@/lib/actions/logOut";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 

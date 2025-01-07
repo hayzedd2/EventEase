@@ -1,4 +1,4 @@
-import { setCookie } from "@/actions/setCookie";
+import { setCookie } from "@/lib/actions/setCookie";
 import { getUserByEmail } from "@/data/user";
 import { LoginSchema } from "@/schema";
 import { generateToken } from "@/utils/token";
