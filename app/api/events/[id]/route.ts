@@ -24,8 +24,7 @@ export async function DELETE(
         id,
       },
     });
-    console.log("reached");
-    console.log("event", event);
+  
     if (!event || event.userId !== user.userId) {
       return Response.json({ message: "Not allowed" }, { status: 403 });
     }
