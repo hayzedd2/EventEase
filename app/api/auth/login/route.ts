@@ -1,9 +1,9 @@
+import { setCookie } from "@/lib/actions/setCookie";
 import { getUserByEmail } from "@/data/user";
 import { LoginSchema } from "@/schema";
 import { generateToken } from "@/utils/token";
 import bcrypt from "bcryptjs";
 import { NextRequest } from "next/server";
-import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,15 +32,12 @@ export async function POST(req: NextRequest) {
       existingUser.username,
       existingUser.userid
     );
-    const cookieStore = await cookies();
-    cookieStore.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-    });
-    return Response.json({ message: "Login successful" }, { status: 200 });
+    await setCookie(token)
+    return Response.json(
+      { message: "Login successful"},
+      { status: 200 }
+    );
   } catch (err) {
-    return Response.json({ message: "Something went wrong" }, { status: 500 });
+    return Response.json({ message: "Something went wrong"}, { status: 500 });
   }
 }
